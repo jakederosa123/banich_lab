@@ -1,0 +1,27 @@
+---
+title: "Banich Lab GitHub Branching Tutorial"
+author: "Jake DeRosa"
+date: "2026-04-20"
+output: html_document
+---
+
+## Overview
+
+This guide walks through how to use Git and GitHub to collaborate on the same codebase using branches. This is designed for research assistants who may be new to Git.
+
+The goal is simple:
+
+- Everyone works on their own branch  
+- No one breaks the main code  
+- Changes are reviewed before merging  
+
+---
+
+## Step 1: Clone the Repository
+
+Each person should download the repository to their local machine.
+
+git clone https://github.com/jakederosa123/banich_lab.git
+cd banich_lab
+
+
