@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style type="text/css">
+.inline {
+background-color: #f7f7f7;
+border:solid 1px #B0B0B0;
+}
+.error {
+font-weight: bold;
+color: #FF0000;
+}
+.warning {
+font-weight: bold;
+}
+.message {
+font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+padding: 0 1em;
+border:solid 1px #F7F7F7;
+}
+.source {
+background-color: #f5f5f5;
+}
+.left {
+text-align: left;
+}
+.right {
+text-align: right;
+}
+.center {
+text-align: center;
+}
+.hl.num {
+color: #AF0F91;
+}
+.hl.sng {
+color: #317ECC;
+}
+.hl.com {
+color: #AD95AF;
+font-style: italic;
+}
+.hl.opt {
+color: #000000;
+}
+.hl.def {
+color: #585858;
+}
+.hl.kwa {
+color: #295F94;
+font-weight: bold;
+}
+.hl.kwb {
+color: #B05A65;
+}
+.hl.kwc {
+color: #55aa55;
+}
+.hl.kwd {
+color: #BC5A65;
+font-weight: bold;
+}
+</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Banich Lab GitHub Workflow Guide</title>
+  <style>
+:root {
+--bg: #f7f9fc;
+--surface: #ffffff;
+--surface-2: #f1f5f9;
+--text: #1e293b;
+--muted: #475569;
+--border: #dbe3ee;
+--accent: #2563eb;
+--accent-dark: #1d4ed8;
+--success: #166534;
+--warning: #92400e;
+--danger: #991b1b;
+--shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+--radius: 18px;
+}
+* {
+box-sizing: border-box;
+}
+html {
+scroll-behavior: smooth;
+}
+body {
+margin: 0;
+font-family: Arial, Helvetica, sans-serif;
+background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 240px);
+color: var(--text);
+line-height: 1.6;
+}
+a {
+color: var(--accent);
+text-decoration: none;
+}
+a:hover {
+text-decoration: underline;
+}
+.container {
+width: min(1120px, calc(100% - 32px));
+margin: 0 auto;
+}
+.hero {
+padding: 56px 0 28px;
+}
+.hero-card {
+background: rgba(255, 255, 255, 0.88);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(219, 227, 238, 0.9);
+border-radius: 28px;
+box-shadow: var(--shadow);
+padding: 34px;
+}
+.eyebrow {
+display: inline-block;
+padding: 6px 12px;
+border-radius: 999px;
+background: #dbeafe;
+color: #1e40af;
+font-size: 0.86rem;
+font-weight: 700;
+letter-spacing: 0.02em;
+margin-bottom: 14px;
+}
+h1 {
+margin: 0 0 10px;
+font-size: clamp(2rem, 4vw, 3.2rem);
+line-height: 1.12;
+}
+.subtitle {
+margin: 0;
+color: var(--muted);
+font-size: 1.05rem;
+max-width: 860px;
+}
+.hero-actions {
+display: flex;
+flex-wrap: wrap;
+gap: 12px;
+margin-top: 22px;
+}
+.button {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+padding: 12px 18px;
+border-radius: 12px;
+border: 1px solid var(--border);
+background: var(--surface);
+color: var(--text);
+font-weight: 700;
+cursor: pointer;
+transition: 0.18s ease;
+}
+.button:hover {
+transform: translateY(-1px);
+box-shadow: 0 8px 18px rgba(37, 99, 235, 0.12);
+text-decoration: none;
+}
+.button.primary {
+background: var(--accent);
+color: white;
+border-color: var(--accent);
+}
+.button.primary:hover {
+background: var(--accent-dark);
+}
+.repo-box {
+margin-top: 20px;
+padding: 16px 18px;
+border: 1px solid var(--border);
+background: var(--surface-2);
+border-radius: 16px;
+font-size: 0.98rem;
+overflow-wrap: anywhere;
+}
+.grid {
+display: grid;
+grid-template-columns: 280px 1fr;
+gap: 24px;
+align-items: start;
+padding: 18px 0 64px;
+}
+.sidebar {
+position: sticky;
+top: 20px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: 20px;
+padding: 18px;
+box-shadow: var(--shadow);
+}
+.sidebar h2 {
+margin: 0 0 14px;
+font-size: 1rem;
+}
+.sidebar nav {
+display: grid;
+gap: 8px;
+}
+.sidebar a {
+display: block;
+padding: 10px 12px;
+border-radius: 12px;
+color: var(--text);
+background: transparent;
+}
+.sidebar a:hover,
+.sidebar a.active {
+background: #eff6ff;
+color: #1d4ed8;
+text-decoration: none;
+}
+.content {
+display: grid;
+gap: 18px;
+}
+.card {
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: 22px;
+padding: 24px;
+box-shadow: var(--shadow);
+}
+.card h2 {
+margin-top: 0;
+margin-bottom: 12px;
+font-size: 1.45rem;
+}
+.card h3 {
+margin-top: 20px;
+margin-bottom: 10px;
+font-size: 1.06rem;
+}
+.lead {
+color: var(--muted);
+margin-top: 0;
+}
+.pill-row {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+margin-top: 16px;
+}
+.pill {
+padding: 9px 12px;
+border-radius: 999px;
+border: 1px solid var(--border);
+background: var(--surface-2);
+font-size: 0.94rem;
+}
+ul, ol {
+padding-left: 22px;
+}
+.concept-grid,
+.setup-grid,
+.mistake-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 14px;
+margin-top: 16px;
+}
+.mini-card {
+border: 1px solid var(--border);
+border-radius: 16px;
+padding: 16px;
+background: var(--surface-2);
+}
+.mini-card strong {
+display: block;
+margin-bottom: 6px;
+font-size: 1rem;
+}
+details {
+border: 1px solid var(--border);
+border-radius: 16px;
+background: #fcfdff;
+padding: 14px 16px;
+}
+details + details {
+margin-top: 12px;
+}
+summary {
+cursor: pointer;
+font-weight: 700;
+list-style: none;
+}
+summary::-webkit-details-marker {
+display: none;
+}
+.workflow-tabs {
+margin-top: 18px;
+}
+.tab-buttons {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+margin-bottom: 14px;
+}
+.tab-btn {
+border: 1px solid var(--border);
+background: var(--surface-2);
+color: var(--text);
+padding: 10px 14px;
+border-radius: 12px;
+font-weight: 700;
+cursor: pointer;
+}
+.tab-btn.active {
+background: #dbeafe;
+color: #1d4ed8;
+border-color: #bfdbfe;
+}
+.tab-panel {
+display: none;
+border: 1px solid var(--border);
+border-radius: 16px;
+padding: 18px;
+background: #fcfdff;
+}
+.tab-panel.active {
+display: block;
+}
+.code-block {
+position: relative;
+background: #0f172a;
+color: #e2e8f0;
+border-radius: 16px;
+padding: 18px 18px 52px;
+overflow-x: auto;
+margin-top: 12px;
+font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+font-size: 0.94rem;
+line-height: 1.55;
+}
+.copy-btn {
+position: absolute;
+right: 12px;
+bottom: 12px;
+border: 1px solid rgba(255,255,255,0.18);
+background: rgba(255,255,255,0.08);
+color: white;
+border-radius: 10px;
+padding: 8px 12px;
+cursor: pointer;
+font-size: 0.86rem;
+font-weight: 700;
+}
+.copy-btn:hover {
+background: rgba(255,255,255,0.16);
+}
+.callout {
+border-left: 5px solid var(--accent);
+background: #eff6ff;
+padding: 14px 16px;
+border-radius: 0 14px 14px 0;
+margin: 14px 0;
+}
+.callout.warning {
+border-left-color: #d97706;
+background: #fff7ed;
+}
+.callout.danger {
+border-left-color: #dc2626;
+background: #fef2f2;
+}
+.timeline {
+display: grid;
+gap: 12px;
+margin-top: 16px;
+}
+.timeline-item {
+display: grid;
+grid-template-columns: 48px 1fr;
+gap: 14px;
+align-items: start;
+border: 1px solid var(--border);
+border-radius: 16px;
+padding: 16px;
+background: #fcfdff;
+}
+.timeline-number {
+width: 40px;
+height: 40px;
+border-radius: 999px;
+background: #dbeafe;
+color: #1d4ed8;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 800;
+}
+.two-col {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 16px;
+}
+.kbd {
+display: inline-block;
+border: 1px solid #cbd5e1;
+border-bottom-width: 2px;
+background: white;
+border-radius: 8px;
+padding: 2px 8px;
+font-family: monospace;
+font-size: 0.92rem;
+}
+footer {
+padding: 0 0 60px;
+color: var(--muted);
+text-align: center;
+}
+@media (max-width: 920px) {
+.grid {
+grid-template-columns: 1fr;
+}
+.sidebar {
+position: relative;
+top: 0;
+}
+.two-col {
+grid-template-columns: 1fr;
+}
+}
+@media (max-width: 640px) {
+.hero-card,
+.card,
+.sidebar {
+padding: 18px;
+}
+.timeline-item {
+grid-template-columns: 1fr;
+}
+}
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="eyebrow">Banich Lab Tutorial</div>
+        <h1>GitHub Workflow Guide for banich_lab</h1>
+        <p class="subtitle">
+          A practical guide for anyone working in the <strong>banich_lab</strong> repository. This tutorial explains setup, GitHub concepts, the daily workflow, pull requests, merge preparation, and what to do when multiple people are working on the same code.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/jakederosa123/banich_lab" target="_blank" rel="noopener noreferrer">Open Repository</a>
+          <a class="button" href="https://desktop.github.com/" target="_blank" rel="noopener noreferrer">Download GitHub Desktop</a>
+          <a class="button" href="https://git-scm.com/downloads" target="_blank" rel="noopener noreferrer">Download Git</a>
+          <a class="button" href="#daily-workflow">Jump to Daily Workflow</a>
+        </div>
+        <div class="repo-box">
+          <strong>Repository:</strong> <a href="https://github.com/jakederosa123/banich_lab" target="_blank" rel="noopener noreferrer">github.com/jakederosa123/banich_lab</a><br>
+          <strong>Clone URL:</strong> <span id="clone-url">https://github.com/jakederosa123/banich_lab.git</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container grid">
+    <aside class="sidebar">
+      <h2>Sections</h2>
+      <nav>
+        <a href="#purpose">What this is for</a>
+        <a href="#setup">Required setup</a>
+        <a href="#concepts">Key concepts</a>
+        <a href="#rule">Core rule</a>
+        <a href="#first-time">First-time setup</a>
+        <a href="#daily-workflow">Daily workflow</a>
+        <a href="#same-file">Working on the same file</a>
+        <a href="#merge-check">Before merging</a>
+        <a href="#after-merge">After merging</a>
+        <a href="#structure">Folder structure</a>
+        <a href="#names">Naming conventions</a>
+        <a href="#mistakes">Common mistakes</a>
+        <a href="#cli">Command line version</a>
+      </nav>
+    </aside>
+
+    <section class="content">
+      <article class="card" id="purpose">
+        <h2>1. What this system is for</h2>
+        <p class="lead">This repository is the shared workspace for code and related materials.</p>
+        <div class="pill-row">
+          <div class="pill">Multiple contributors can work safely</div>
+          <div class="pill">Accidental overwrites are reduced</div>
+          <div class="pill">Changes are tracked over time</div>
+          <div class="pill">Reviewed work reaches main</div>
+        </div>
+        <div class="callout">
+          <strong>Main idea:</strong> GitHub makes it possible for several people to work on the same project without constantly replacing each other’s files.
+        </div>
+      </article>
+
+      <article class="card" id="setup">
+        <h2>2. Required setup</h2>
+        <div class="setup-grid">
+          <div class="mini-card">
+            <strong>Step 1, Create a GitHub account</strong>
+            Go to <a href="https://github.com" target="_blank" rel="noopener noreferrer">github.com</a> and create an account.
+          </div>
+          <div class="mini-card">
+            <strong>Step 2, Install GitHub Desktop</strong>
+            Download it from <a href="https://desktop.github.com/" target="_blank" rel="noopener noreferrer">desktop.github.com</a>, install it, then sign in.
+          </div>
+          <div class="mini-card">
+            <strong>Step 3, Install Git</strong>
+            Download Git from <a href="https://git-scm.com/downloads" target="_blank" rel="noopener noreferrer">git-scm.com/downloads</a> if it is not already installed.
+          </div>
+        </div>
+
+        <details>
+          <summary>What each tool does</summary>
+          <p><strong>GitHub</strong> stores the remote project online.</p>
+          <p><strong>GitHub Desktop</strong> gives you a visual interface for pulling, creating branches, committing, pushing, and opening pull requests.</p>
+          <p><strong>Git</strong> is the version control system underneath everything.</p>
+        </details>
+      </article>
+
+      <article class="card" id="concepts">
+        <h2>3. Key concepts</h2>
+        <div class="concept-grid">
+          <div class="mini-card"><strong>Repository</strong>A project folder stored locally and on GitHub.</div>
+          <div class="mini-card"><strong>Local</strong>The version on your computer.</div>
+          <div class="mini-card"><strong>Remote</strong>The version stored on GitHub.</div>
+          <div class="mini-card"><strong>Branch</strong>A separate working version of the project.</div>
+          <div class="mini-card"><strong>main</strong>The official branch of the project.</div>
+          <div class="mini-card"><strong>Commit</strong>A saved snapshot of your changes.</div>
+          <div class="mini-card"><strong>Push</strong>Upload your commits to GitHub.</div>
+          <div class="mini-card"><strong>Pull</strong>Download the latest changes from GitHub.</div>
+          <div class="mini-card"><strong>Pull Request</strong>A request to merge branch work into main.</div>
+        </div>
+      </article>
+
+      <article class="card" id="rule">
+        <h2>4. Core rule</h2>
+        <div class="callout danger">
+          <strong>Never work directly on <code>main</code>.</strong> Always create a branch first, make your changes there, and then submit a pull request.
+        </div>
+      </article>
+
+      <article class="card" id="first-time">
+        <h2>5. First-time setup</h2>
+        <p class="lead">Clone the repository once so you have a local copy on your computer.</p>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-number">1</div>
+            <div>
+              <strong>Open GitHub Desktop</strong>
+              <p>After signing in, choose the option to clone a repository from a URL.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">2</div>
+            <div>
+              <strong>Use this repository URL</strong>
+              <div class="code-block">
+                https://github.com/jakederosa123/banich_lab.git
+                <button class="copy-btn" data-copy="https://github.com/jakederosa123/banich_lab.git">Copy</button>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-number">3</div>
+            <div>
+              <strong>Choose a local folder</strong>
+              <p><strong>Mac example:</strong> <code>/Users/yourname/Documents/GitHub/banich_lab</code></p>
+              <p><strong>Windows example:</strong> <code>C:\Users\yourname\Documents\GitHub\banich_lab</code></p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="daily-workflow">
+        <h2>6. Standard and daily workflow</h2>
+        <p class="lead">Use this pattern each time you start new work.</p>
+
+        <div class="workflow-tabs">
+          <div class="tab-buttons">
+            <button class="tab-btn active" data-tab="desktop">GitHub Desktop workflow</button>
+            <button class="tab-btn" data-tab="daily">Daily checklist</button>
+            <button class="tab-btn" data-tab="pr">Pull request flow</button>
+          </div>
+
+          <div class="tab-panel active" id="desktop">
+            <ol>
+              <li>Switch to <strong>main</strong>.</li>
+              <li>Click <strong>Fetch origin</strong>.</li>
+              <li>Click <strong>Pull origin</strong> if updates are available.</li>
+              <li>Create a new branch, for example <code>jake-fix-readme</code>.</li>
+              <li>Edit your files.</li>
+              <li>Write a clear commit message.</li>
+              <li>Commit to your branch.</li>
+              <li>Click <strong>Push origin</strong>.</li>
+              <li>Create a pull request on GitHub.</li>
+            </ol>
+          </div>
+
+          <div class="tab-panel" id="daily">
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-number">A</div>
+                <div>
+                  <strong>Start</strong>
+                  <p>Pull the newest version of <code>main</code>, then create a fresh branch.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-number">B</div>
+                <div>
+                  <strong>Work</strong>
+                  <p>Edit files and commit your changes with a clear description.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-number">C</div>
+                <div>
+                  <strong>Submit</strong>
+                  <p>Push your branch and open a pull request.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-number">D</div>
+                <div>
+                  <strong>After merge</strong>
+                  <p>Switch back to <code>main</code> and pull the newest updates.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="pr">
+            <ol>
+              <li>Push your branch to GitHub.</li>
+              <li>Open the repository on GitHub.</li>
+              <li>Click <strong>Compare &amp; pull request</strong>.</li>
+              <li>Add a clear title, for example <em>Update README setup instructions</em>.</li>
+              <li>Add a short description of what changed and why.</li>
+              <li>Submit the pull request for review.</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="same-file">
+        <h2>7. Working on the same file</h2>
+        <p class="lead">Two or more people can work on the same repository safely, but coordination matters.</p>
+        <div class="two-col">
+          <div>
+            <h3>Best practice</h3>
+            <ul>
+              <li>Each person works on their own branch.</li>
+              <li>Pull the latest <code>main</code> before starting.</li>
+              <li>Merge one pull request at a time.</li>
+              <li>Keep branches focused on one task.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Why conflicts happen</h3>
+            <ul>
+              <li>Two people edit the same lines in the same file.</li>
+              <li>One branch is behind the newest version of <code>main</code>.</li>
+              <li>Large branches stay open too long.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout warning">
+          <strong>Important:</strong> if two people changed the same exact lines, Git may ask for a manual conflict resolution before the pull request can be merged.
+        </div>
+      </article>
+
+      <article class="card" id="merge-check">
+        <h2>8. Before merging into main</h2>
+        <ul>
+          <li>Make sure the code runs as expected.</li>
+          <li>Check that the changes are understandable and limited to the intended task.</li>
+          <li>Confirm you did not accidentally include temporary files, hidden files, or unrelated edits.</li>
+          <li>Review the pull request diff before merging.</li>
+        </ul>
+      </article>
+
+      <article class="card" id="after-merge">
+        <h2>9. After merging</h2>
+        <ol>
+          <li>Switch back to <code>main</code>.</li>
+          <li>Pull the newest version of <code>main</code>.</li>
+          <li>Delete the old branch if it is no longer needed.</li>
+          <li>Create a new branch for the next task.</li>
+        </ol>
+      </article>
+
+      <article class="card" id="structure">
+        <h2>10. Example folder structure</h2>
+        <div class="code-block">
+banich_lab/
+├── README.md
+├── scripts/
+├── data_examples/
+├── docs/
+└── notes/
+          <button class="copy-btn" data-copy="banich_lab/
+├── README.md
+├── scripts/
+├── data_examples/
+├── docs/
+└── notes/">Copy</button>
+        </div>
+      </article>
+
+      <article class="card" id="names">
+        <h2>11. Naming conventions</h2>
+        <div class="two-col">
+          <div class="mini-card">
+            <strong>Branch names</strong>
+            <p>Use a name like <code>yourname-task</code> or <code>yourname-task-description</code>.</p>
+            <p><strong>Examples:</strong></p>
+            <ul>
+              <li><code>jake-update-readme</code></li>
+              <li><code>marie-fix-data-import</code></li>
+              <li><code>kenny-add-plot-function</code></li>
+            </ul>
+          </div>
+          <div class="mini-card">
+            <strong>Commit messages</strong>
+            <p>Use clear descriptions that explain what changed.</p>
+            <p><strong>Examples:</strong></p>
+            <ul>
+              <li><code>Fix file path in preprocessing script</code></li>
+              <li><code>Add example data to docs folder</code></li>
+              <li><code>Update README with setup steps</code></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="mistakes">
+        <h2>12. Common mistakes to avoid</h2>
+        <div class="mistake-grid">
+          <div class="mini-card"><strong>Do not work on main</strong>Always create a branch first.</div>
+          <div class="mini-card"><strong>Do not skip pulling</strong>Start by updating main.</div>
+          <div class="mini-card"><strong>Do not use vague commits</strong>Avoid messages like <code>stuff</code> or <code>updates</code>.</div>
+          <div class="mini-card"><strong>Do not mix unrelated edits</strong>Keep one branch focused on one purpose.</div>
+        </div>
+      </article>
+
+      <article class="card" id="cli">
+        <h2>13. Command line version</h2>
+        <p class="lead">This is the same workflow using terminal commands.</p>
+        <div class="code-block">
+git clone https://github.com/jakederosa123/banich_lab.git
+cd banich_lab
+git checkout main
+git pull origin main
+git checkout -b yourname-task
+git add .
+git commit -m &quot;Describe changes&quot;
+git push -u origin yourname-task
+          <button class="copy-btn" data-copy="git clone https://github.com/jakederosa123/banich_lab.git
+cd banich_lab
+git checkout main
+git pull origin main
+git checkout -b yourname-task
+git add .
+git commit -m \" Describe changes\" git push -u origin yourname-task">Copy</button>
+        </div>
+
+        <details>
+          <summary>What these commands mean</summary>
+          <p><code>git clone</code> downloads the repository.</p>
+          <p><code>cd banich_lab</code> moves into the project folder.</p>
+          <p><code>git checkout main</code> switches to the main branch.</p>
+          <p><code>git pull origin main</code> downloads the newest changes from GitHub.</p>
+          <p><code>git checkout -b yourname-task</code> creates and switches to a new branch.</p>
+          <p><code>git add .</code> stages your changes.</p>
+          <p><code>git commit -m &quot;Describe changes&quot;</code> saves your changes locally.</p>
+          <p><code>git push -u origin yourname-task</code> uploads your branch to GitHub.</p>
+        </details>
+      </article>
+
+      <article class="card" id="examples">
+        <h2>14. Quick examples</h2>
+
+        <details>
+          <summary>Example 1, updating a README</summary>
+          <ol>
+            <li>Pull <code>main</code>.</li>
+            <li>Create branch <code>jake-update-readme</code>.</li>
+            <li>Edit <code>README.md</code>.</li>
+            <li>Commit with message <code>Update README setup instructions</code>.</li>
+            <li>Push and open pull request.</li>
+          </ol>
+        </details>
+
+        <details>
+          <summary>Example 2, two people editing different files</summary>
+          <p>Person A works on <code>scripts/analysis.py</code> in one branch. Person B works on <code>docs/setup.md</code> in another branch. Both can open separate pull requests with little risk of conflict.</p>
+        </details>
+
+        <details>
+          <summary>Example 3, two people editing the same script</summary>
+          <p>Both people should still use separate branches. The first pull request merges into <code>main</code>. The second person should then pull the updated <code>main</code>, update their branch, resolve any conflicts if needed, and then finish the pull request.</p>
+        </details>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.tab;
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabPanels.forEach(panel => panel.classList.remove('active'));
+        button.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    const copyButtons = document.querySelectorAll('.copy-btn');
+    copyButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const text = button.getAttribute('data-copy');
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = button.textContent;
+          button.textContent = 'Copied';
+          setTimeout(() => {
+            button.textContent = original;
+          }, 1400);
+        } catch (error) {
+          button.textContent = 'Copy failed';
+          setTimeout(() => {
+            button.textContent = 'Copy';
+          }, 1400);
+        }
+      });
+    });
+
+    const navLinks = document.querySelectorAll('.sidebar a');
+    const sections = [...navLinks].map(link => document.querySelector(link.getAttribute('href')));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          const activeLink = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.1 });
+
+    sections.forEach(section => {
+      if (section) observer.observe(section);
+    });
+  </script>
+</body>
+</html>
